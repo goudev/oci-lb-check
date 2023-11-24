@@ -1,60 +1,73 @@
-# lb_status.sh: Documentação de Uso
+# Documentação de Uso dos Scripts: lb_status.sh e waf_status.sh
 
 ## Descrição
 
-O script `lb_status.sh` é uma ferramenta de linha de comando projetada para verificar o estado de saúde de Load Balancers na Oracle Cloud Infrastructure (OCI). Ele oferece duas funcionalidades principais:
+Este repositório contém duas ferramentas de linha de comando para verificar o estado de saúde de Load Balancers e Web Application Firewalls (WAF) na Oracle Cloud Infrastructure (OCI).
 
-1. **Verificar o Estado do Load Balancer (check_lb_status)**: Esta função verifica o estado geral do Load Balancer, informando se está ativo e funcionando corretamente.
-2. **Verificar a Saúde dos Backends (check_backend_health)**: Esta função fornece um relatório detalhado sobre a saúde de cada Backend Set e seus backends associados no Load Balancer.
+### lb_status.sh
 
-Este script é útil para administradores de sistema e equipes de operações que precisam monitorar a saúde e o status dos Load Balancers na OCI.
+O script `lb_status.sh` é projetado para monitorar Load Balancers, oferecendo duas funcionalidades principais:
+
+1. **Verificar o Estado do Load Balancer (check_lb_status)**: Verifica se o Load Balancer está ativo e funcionando corretamente.
+2. **Verificar a Saúde dos Backends (check_backend_health)**: Fornece um relatório detalhado sobre a saúde de cada Backend Set e seus backends.
+
+### waf_status.sh
+
+O script `waf_status.sh` é utilizado para monitorar Web Application Firewalls, com as seguintes funcionalidades:
+
+1. **Verificar o Estado do WAF (check_waf_status)**: Verifica o estado geral do WAF, informando se está ativo e operacional.
+2. **Verificar o Estado da Política do WAF (check_waf_policy_lifecycle_state)**: Avalia o estado da política de WAF associada, incluindo seu nome e status.
 
 ## Pré-requisitos
 
-- Oracle Cloud Infrastructure Command Line Interface (OCI CLI) deve estar instalada e configurada no seu sistema.
-- Você deve ter o `jq` instalado, uma ferramenta de linha de comando para processar dados JSON.
-- Acesso apropriado à OCI para consultar informações sobre Load Balancers.
+- Oracle Cloud Infrastructure Command Line Interface (OCI CLI) instalada e configurada.
+- `jq` instalado para processamento de dados JSON.
+- Acesso apropriado à OCI para consultar informações sobre Load Balancers e WAFs.
 
 ## Como Usar
 
-### Execução do Script
+### Execução dos Scripts
 
-O script `lb_status.sh` pode ser executado a partir da linha de comando. Para usá-lo, você precisa fornecer dois parâmetros:
-
-1. **OCID do Load Balancer**: O Oracle Cloud Identifier (OCID) do Load Balancer que você deseja verificar.
-2. **Nome da Função**: Indica qual função você deseja executar - `check_lb_status` para verificar o estado do Load Balancer, `check_backend_health` para verificar a saúde dos Backends.
+Ambos os scripts podem ser executados a partir da linha de comando. É necessário fornecer o OCID do recurso (Load Balancer ou WAF) e o nome da função desejada.
 
 ### Formato do Comando
+
+Para `lb_status.sh`:
 
 ```bash
 ./lb_status.sh <OCID_Load_Balancer> <Nome_da_Função>
 ```
 
-Substitua `<OCID_Load_Balancer>` pelo OCID do seu Load Balancer e `<Nome_da_Função>` por `check_lb_status` ou `check_backend_health`, dependendo da verificação desejada.
+Para `waf_status.sh`:
+
+```bash
+./waf_status.sh <OCID_WAF> <Nome_da_Função>
+```
+
+Substitua `<OCID_Load_Balancer>` ou `<OCID_WAF>` pelo OCID apropriado e `<Nome_da_Função>` pela função desejada.
 
 ### Exemplos
 
-- Para verificar o estado do Load Balancer:
-  ```bash
-  ./lb_status.sh ocid1.loadbalancer.oc1... check_lb_status
-  ```
-- Para verificar a saúde dos Backends:
-  ```bash
-  ./lb_status.sh ocid1.loadbalancer.oc1... check_backend_health
-  ```
+- **Load Balancer**:
+
+  - Verificar estado: `./lb_status.sh ocid1.loadbalancer.oc1... check_lb_status`
+  - Verificar saúde dos backends: `./lb_status.sh ocid1.loadbalancer.oc1... check_backend_health`
+
+- **Web Application Firewall**:
+  - Verificar estado do WAF: `./waf_status.sh ocid1.webappfirewall.oc1... check_waf_status`
+  - Verificar estado da política do WAF: `./waf_status.sh ocid1.webappfirewall.oc1... check_waf_policy_lifecycle_state`
 
 ### Interpretação dos Resultados
 
-- **Verificação do Estado do Load Balancer (check_lb_status)**:
+- **Load Balancer**:
 
-  - Se o Load Balancer estiver ativo, você receberá uma mensagem indicando que está "ACTIVE".
-  - Se o Load Balancer não estiver ativo, você receberá o estado atual e um código de saída `2`, indicando uma condição de falha.
+  - `check_lb_status`: Indica "ACTIVE" se estiver funcionando corretamente.
+  - `check_backend_health`: Relatório detalhado da saúde dos backends.
 
-- **Verificação da Saúde dos Backends (check_backend_health)**:
-  - O script fornecerá um relatório detalhado para cada Backend Set e seus backends. Cada linha indica o estado de saúde de um backend.
-  - Se todos os backends estiverem saudáveis, você receberá mensagens indicando que estão "Saudáveis".
-  - Se algum backend apresentar problemas, você receberá detalhes do problema e um código de saída `2`.
+- **Web Application Firewall**:
+  - `check_waf_status`: Indica "ACTIVE" se o WAF estiver operacional.
+  - `check_waf_policy_lifecycle_state`: Mostra o nome e o estado da política do WAF.
 
 ## Conclusão
 
-O script `lb_status.sh` é uma ferramenta eficaz para o monitoramento rápido e fácil do estado e saúde dos Load Balancers na Oracle Cloud Infrastructure. Com este script, equipes técnicas podem manter uma visão clara sobre o desempenho e a estabilidade de seus recursos de Load Balancer.
+Os scripts `lb_status.sh` e `waf_status.sh` são ferramentas valiosas para o monitoramento de Load Balancers e Web Application Firewalls na Oracle Cloud Infrastructure, proporcionando uma visão clara sobre o desempenho e a estabilidade destes recursos.
